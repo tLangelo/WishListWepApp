@@ -20,8 +20,8 @@ public class DataBase {
 
         try
         {
-            String url = "jdbc:mysql://localhost:3306/wish_list_app";
-            connection = DriverManager.getConnection(url,"Trip","Password1234");
+            String url = "jdbc:mysql://localhost:3306/xxxxx";
+            connection = DriverManager.getConnection(url,"xxx","xxxxx");
             System.out.println("Ok, we have a connection.");
         }
         catch(Exception e)
