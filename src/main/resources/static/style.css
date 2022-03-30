@@ -1,4 +1,78 @@
-h1{
+*{
+    margin: 0;
+    padding: 0;
+}
+
+body{
+    color: black;
+    font-family: Sans-serif;
+    border-top: 10px solid orangered;
+}
+
+.container{
+    margin: 10px auto;
+    width: 50%;
+    border: 3px solid green;
+}
+
+.header{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 3px solid black;
+    padding: 5px 2px;
+    margin-bottom: 25px;
+}
+
+.article1{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 3px solid yellow;
+    padding: 5px 2px;
+    margin-bottom: 25px;
+}
+.article2{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    border: 3px solid palegreen;
+    padding: 5px 2px;
+    margin-bottom: 25px;
+}
+.article1 p{
+    text-align: left;
+    margin-left: 10px;
+    line-height: 30px;
+}
+
+.article2 p{
+    text-align: left;
+    margin-left: 10px;
+    line-height: 30px;
+}
+
+#redPresent1{
+    width: 25%;
+    height: auto;
+}
+
+#redPresent2{
+    width: 25%;
+    height: auto;
+}
+
+.header h1{
+    width: 55%;
+}
+
+.header button{
+    width: 18%;
+}
+
+footer{
     text-align: center;
-    color: teal;
 }
