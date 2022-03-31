@@ -21,4 +21,8 @@ public class WishList {
     public String getDescription() {
         return description;
     }
+    public ArrayList<Wish> getWishes(){
+        return this.wishes;
+    }
+
 }
