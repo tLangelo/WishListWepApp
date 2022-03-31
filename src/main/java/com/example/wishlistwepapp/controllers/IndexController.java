@@ -35,9 +35,13 @@ public class IndexController {
 
 
     @GetMapping("/signup")
-    public String signIn(){
-        return "sign_in";
+    public String signUp(){
+        return "sign_up";
     }
+
+
+    //work in progress :)
+    /*
     @GetMapping("/register")
     @ResponseBody
     public String showSignUp(HttpServletRequest req, Model model){
@@ -57,7 +61,7 @@ public class IndexController {
 
         return "sign_in";
     }
-/*
+
     @GetMapping("/sign-up")
     @ResponseBody
     public String setSignUpSession(HttpServletRequest request){
@@ -68,7 +72,7 @@ public class IndexController {
         return "sign_in";
     }
 
- */
+
 
     @GetMapping("/get-session")
     @ResponseBody
@@ -78,6 +82,7 @@ public class IndexController {
 
         return user.toString();
     }
+     */
 
 
 
