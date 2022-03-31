@@ -20,8 +20,20 @@ public class User {
 
     public User(String name, String email, String password) {
         this.name = name;
-        this.email = email;
+        if(isEmailValid(email))
+            this.email = email;
+        else
+            this.email = null;
         this.password = password;
+    }
+
+    private boolean isEmailValid(String tar){
+        boolean verification = false;
+
+        if(tar.contains("@") && tar.contains("."))
+            verification = true;
+
+        return verification;
     }
 
     public int getId() {
