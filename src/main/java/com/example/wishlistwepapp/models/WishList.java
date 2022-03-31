@@ -8,4 +8,17 @@ public class WishList {
     private String description;
     private ArrayList<Wish> wishes;
 
+
+    public WishList(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
 }
