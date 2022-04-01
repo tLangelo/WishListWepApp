@@ -7,8 +7,10 @@ import com.example.wishlistwepapp.services.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -37,6 +39,27 @@ public class IndexController {
     @GetMapping("/signup")
     public String signUp(){
         return "sign_up";
+    }
+
+    @PostMapping("/signedin")
+    public String signedIn(WebRequest loginCreds){
+
+        String username = loginCreds.getParameter("usernameSignIn");
+        String password = loginCreds.getParameter("passwordSignIn");
+
+        System.out.println(username + password);
+        return "redirect:/";
+    }
+
+    @PostMapping("/signedup")
+    public String signedUp(WebRequest signUpCreds){
+
+        String username = signUpCreds.getParameter("usernameSignUp");
+        String password = signUpCreds.getParameter("passwordSignUp");
+        String email = signUpCreds.getParameter("emailSignUp");
+
+        System.out.println(username + password + email);
+        return "redirect:/";
     }
 
 

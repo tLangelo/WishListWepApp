@@ -16,14 +16,13 @@
   </div>
   <div class="signup-page">
     <div class="form">
-      <form class="register-form">
-        <input type="text" placeholder="username"/>
-        <input type="password" placeholder="password"/>
-        <input type="text" placeholder="email address"/>
-        <button>create</button>
-        <p class="message">Already registered? <a th:href="@{signin}">Sign In</a></p>
-        <!--<p class="message">Not registered? <a th:href="@{signup}">Create an account</a></p>-->
-      </form>
+        <form class="signup-form" method="POST" action="/signedup">
+          <input name="usernameSignUp" type="text" placeholder="username"/>
+          <input name="passwordSignUp" type="password" placeholder="password"/>
+          <input name="emailSignUp" type="text" placeholder="email address"/>
+          <button type="submit">create</button>
+          <p class="message">Already registered? <a th:href="@{signin}">Sign In</a></p>
+        </form>
     </div>
   </div>
 </div>
