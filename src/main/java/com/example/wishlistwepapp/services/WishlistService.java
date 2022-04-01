@@ -18,7 +18,7 @@ public class WishlistService {
     }
 
     public WishList createWishlist(){
-        return new WishList();
+        return new WishList("Gravko", "Blå gravko");
     }
 
     public void deleteWishlist(WishList wishlist){
