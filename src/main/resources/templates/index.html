@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,8 +9,9 @@
     <div class="container">
         <!--<h1>MAKE A WISH LIST</h1>-->
         <div class="header">
-            <h1>MAKE A WISH LIST</h1>
-            <!--<button href="sign_in.html">Sign in</button>-->
+            <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
+            <ul th:if="${user != null}" th:text="${user.getName()}"></ul>
+            <ul th:unless="${user != null}">Hello</ul>
             <form method="GET" action="/signin">
                 <input class="signInClass" type="submit" value="Sign in">
             </form>

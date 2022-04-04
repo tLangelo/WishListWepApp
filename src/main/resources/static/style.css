@@ -34,6 +34,18 @@ body{
 h1 {
     font-size: 45px;
     padding-right: 33.7%;
+
+
+}
+
+.signInClass {
+    position: relative;
+
+}
+
+h1 a {
+    color: inherit;
+    text-decoration: inherit;
 }
 
 .article1{

@@ -42,13 +42,16 @@ public class IndexController {
     }
 
     @PostMapping("/signedin")
-    public String signedIn(WebRequest loginCreds){
-
+    public String signedIn(WebRequest loginCreds, Model model){
         String username = loginCreds.getParameter("usernameSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
+        User userToDisplay = us.getSingleUser();
+
+        model.addAttribute("user", userToDisplay);
+
 
         System.out.println(username + password);
-        return "redirect:/";
+        return "index";
     }
 
     @PostMapping("/signedup")
@@ -59,8 +62,10 @@ public class IndexController {
         String email = signUpCreds.getParameter("emailSignUp");
 
         System.out.println(username + password + email);
-        return "redirect:/";
+        return "redirect:/signin";
     }
+
+
 
 
     //work in progress :)

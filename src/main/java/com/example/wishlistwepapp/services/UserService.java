@@ -30,4 +30,12 @@ public class UserService {
         //placeholder.removeIf(user::equals);
     }
 
+    public User getUser(String name, String email,String password){
+        return new User(name, email,password);
+    }
+
+    public User getSingleUser(){
+        return new User("John","lol123");
+    }
+
 }
