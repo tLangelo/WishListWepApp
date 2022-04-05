@@ -14,7 +14,7 @@ public class WishService {
     }
 
     //obj
-    WishList wl = new WishList();
+    WishList wl = new WishList("Cykel", "Rød cykel");
 
     public Wish createWish(){
         return new Wish();

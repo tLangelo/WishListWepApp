@@ -1,5 +1,7 @@
 package com.example.wishlistwepapp.models;
 
+import com.example.wishlistwepapp.repositories.DataBase;
+
 import java.util.ArrayList;
 
 public class User {
@@ -10,6 +12,7 @@ public class User {
     private String password;
     private ArrayList<WishList> wishlists = new ArrayList<>();
 
+    //database constructor
     public User(int id, String name, String email, String password, ArrayList<WishList> wishlists) {
         this.id = id;
         this.name = name;
@@ -18,12 +21,16 @@ public class User {
         this.wishlists = wishlists;
     }
 
+    //sign up constructor
     public User(String name, String email, String password) {
         this.name = name;
-        if(isEmailValid(email))
-            this.email = email;
-        else
-            this.email = null;
+        this.email = email;
+        this.password = password;
+    }
+
+    //sign in constructor
+    public User(String name, String password) {
+        this.name = name;
         this.password = password;
     }
 
@@ -67,7 +74,11 @@ public class User {
         return password;
     }
 
-    
+    public ArrayList<WishList> getWishlists() {
+
+        return wishlists;
+    }
+
     public void setEmail(String email) {
         this.email = email;
     }

@@ -8,20 +8,19 @@
 <body>
 
     <div class="container">
-        <!--<h1>MAKE A WISH LIST</h1>-->
         <div class="header">
-            <h1>MAKE A WISH LIST</h1>
+            <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
             <form action="/">
-                <input type="submit" value="Home">
+                <input class="signInClass" type="submit" value="Home">
             </form>
         </div>
         <div class="signin-page">
             <div class="form">
-                <form class="signin-form">
-                    <input type="text" placeholder="username"/>
-                    <input type="password" placeholder="password"/>
-                    <button>login</button>
-                    <p class="message">Not registered? <a href="sign_up.html">Create an account</a></p>
+                <form class="signin-form" method="POST" action="/signedin">
+                    <input name="usernameSignIn" type="text" placeholder="username"/>
+                    <input name="passwordSignIn" type="password" placeholder="password"/>
+                    <button type="submit">login</button>
+                    <p class="message">Not registered? <a th:href="@{signup}">Create an account</a></p>
                 </form>
             </div>
         </div>

@@ -16,11 +16,10 @@ public class UserService {
     }
 
     public User createUser(String name, String email, String password){
-        User u = new User(name, email, password);
-        if(u.getEmail() == null)
-            u.setEmail("generic@dog.com");
-
-        return u;
+        if(!isEmailValid(email))
+            return null;
+        else
+            return new User(name, email, password);
     }
 
     public void deleteUser(){
@@ -28,6 +27,22 @@ public class UserService {
         ArrayList<User> placeholder = new ArrayList<>(Arrays.asList(new User("Hej","@.","123")));
 
         //placeholder.removeIf(user::equals);
+    }
+
+    private boolean isEmailValid(String tar){
+
+        if(tar.contains("@") && tar.contains("."))
+            return true;
+        else
+            return false;
+    }
+
+    public User getUser(String name, String password){
+        return new User(name, password);
+    }
+
+    public User getSingleUser(){
+        return new User("John","lol123");
     }
 
 }
