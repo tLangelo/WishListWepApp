@@ -195,7 +195,7 @@ public class DataBase {
 
     }
 
-    private static ArrayList<WishList> getWishLists(int userId){
+    public static ArrayList<WishList> getWishLists(int userId){
 
 
         String sqlString = "SELECT * FROM wish_lists WHERE user_id = " + userId + ";";

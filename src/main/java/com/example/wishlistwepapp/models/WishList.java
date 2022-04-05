@@ -37,11 +37,11 @@ public class WishList {
     }
 
     public String getTitle() {
-        return title;
+        return this.title;
     }
 
     public String getDescription() {
-        return description;
+        return this.description;
     }
 
     public ArrayList<Wish> getWishes(){

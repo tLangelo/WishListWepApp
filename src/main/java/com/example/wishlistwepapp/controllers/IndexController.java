@@ -88,11 +88,16 @@ public class IndexController {
     public String addWishlist(WebRequest params, Model model){
         String title = params.getParameter("titleWishlist");
         String desc = params.getParameter("descWishlist");
+        WishList wishList = new WishList(title, desc);
+        System.out.println(userToDisplay.getWishlists());
+
+
+        wls.createWishlist(userToDisplay, wishList);
 
 
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
-        model.addAttribute("wishlists", userToDisplay.getWishlists());
+        model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element
 
         return "wishlist";
     }

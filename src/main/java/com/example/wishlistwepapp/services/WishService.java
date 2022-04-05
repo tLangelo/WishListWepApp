@@ -16,9 +16,10 @@ public class WishService {
     //obj
     WishList wl = new WishList("Cykel", "Rød cykel");
 
-    public Wish createWish(){
+    /*public Wish createWish(){
         return new Wish();
     }
+     */
 
     public void deleteWish(Wish wish){
         wl.getWishes().removeIf(wish::equals);

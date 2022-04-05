@@ -3,6 +3,7 @@ package com.example.wishlistwepapp.services;
 import com.example.wishlistwepapp.models.User;
 import com.example.wishlistwepapp.models.Wish;
 import com.example.wishlistwepapp.models.WishList;
+import com.example.wishlistwepapp.repositories.DataBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -17,8 +18,11 @@ public class WishlistService {
         return single_instance;
     }
 
-    public WishList createWishlist(String title, String desc){
-        return new WishList(title, desc);
+    public void createWishlist(User user, WishList wishList){
+        DataBase.connectToDB();
+        DataBase.addWishList(user, wishList);
+        DataBase.closeConnection();
+
     }
 
     public void deleteWishlist(WishList wishlist){
