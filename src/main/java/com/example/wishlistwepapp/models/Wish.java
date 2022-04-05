@@ -2,9 +2,40 @@ package com.example.wishlistwepapp.models;
 
 public class Wish {
 
+    private int id;
     private String title;
     private String description;
     private String urlAddress;
     private int price;
 
+    public Wish(String title, String description, String urlAddress, int price) {
+        this.title = title;
+        this.description = description;
+        this.urlAddress = urlAddress;
+        this.price = price;
+    }
+
+    public Wish(int id, String title, String description, String urlAddress, int price) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.urlAddress = urlAddress;
+        this.price = price;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public String getUrlAddress() {
+        return urlAddress;
+    }
+
+    public int getPrice() {
+        return price;
+    }
 }
