@@ -19,9 +19,10 @@
   <div class="signup-page">
     <div class="form">
         <form class="signup-form" method="POST" action="/signedup">
-          <input name="usernameSignUp" type="text" placeholder="username"/>
-          <input name="passwordSignUp" type="password" placeholder="password"/>
-          <input name="emailSignUp" type="text" placeholder="email address"/>
+          <input name="usernameSignUp" type="text" placeholder="username" required/>
+          <input name="passwordSignUp" type="password" placeholder="password" required/>
+          <input name="emailSignUp" type="text" placeholder="email address" required/>
+          <p class=emailValidator th:if="${count >= 1}">Invalid email</p>
           <button type="submit">create</button>
           <p class="message">Already registered? <a th:href="@{signin}">Sign In</a></p>
         </form>

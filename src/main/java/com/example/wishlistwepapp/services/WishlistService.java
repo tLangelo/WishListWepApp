@@ -17,8 +17,8 @@ public class WishlistService {
         return single_instance;
     }
 
-    public WishList createWishlist(){
-        return new WishList("Gravko", "Blå gravko");
+    public WishList createWishlist(String title, String desc){
+        return new WishList(title, desc);
     }
 
     public void deleteWishlist(WishList wishlist){
