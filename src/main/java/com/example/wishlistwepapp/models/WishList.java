@@ -10,15 +10,30 @@ public class WishList {
     private ArrayList<Wish> wishes;
 
 
-    public WishList(String title, String description) {
-        this.title = title;
-        this.description = description;
-    }
 
     public WishList(int id, String title, String description) {
         this.id = id;
         this.title = title;
         this.description = description;
+    }
+
+    public WishList(String title, String description, ArrayList<Wish> wishes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.wishes = wishes;
+    }
+
+    public WishList(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public WishList(int id, String title, String description, ArrayList<Wish> wishes) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.wishes = wishes;
     }
 
     public String getTitle() {

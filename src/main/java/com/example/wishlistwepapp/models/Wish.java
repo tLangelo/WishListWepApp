@@ -38,4 +38,15 @@ public class Wish {
     public int getPrice() {
         return price;
     }
+
+    @Override
+    public String toString() {
+        return "Wish{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", urlAddress='" + urlAddress + '\'' +
+                ", price=" + price +
+                '}';
+    }
 }
