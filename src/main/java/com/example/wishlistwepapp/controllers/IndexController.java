@@ -1,6 +1,7 @@
 package com.example.wishlistwepapp.controllers;
 
 import com.example.wishlistwepapp.models.User;
+import com.example.wishlistwepapp.models.WishList;
 import com.example.wishlistwepapp.services.UserService;
 import com.example.wishlistwepapp.services.WishService;
 import com.example.wishlistwepapp.services.WishlistService;
@@ -14,12 +15,14 @@ import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import java.util.ArrayList;
 
 @Controller
 public class IndexController {
     private final WishlistService wls = WishlistService.getInstance();
     private final WishService ws = WishService.getInstance();
     private final UserService us = UserService.getInstance();
+
 
 
 
@@ -42,27 +45,55 @@ public class IndexController {
     }
 
     @PostMapping("/signedin")
-    public String signedIn(WebRequest loginCreds, Model model){
+    public String signedIn(HttpSession session, WebRequest loginCreds, Model model){
         String username = loginCreds.getParameter("usernameSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
-        User userToDisplay = us.getSingleUser();
+        User userToDisplay = us.getUser(username,password);
+
+        if(userToDisplay == null)
+            return "redirect:/signin";
 
         model.addAttribute("user", userToDisplay);
-
+        session.setAttribute("user",userToDisplay);
 
         System.out.println(username + password);
-        return "index";
+        return "wishlist";
     }
 
     @PostMapping("/signedup")
-    public String signedUp(WebRequest signUpCreds){
-
+    public String signedUp(WebRequest signUpCreds, Model model){
+        //init count var to check for invalid email
+        int count = 0;
+        //getting params for user
         String username = signUpCreds.getParameter("usernameSignUp");
         String password = signUpCreds.getParameter("passwordSignUp");
         String email = signUpCreds.getParameter("emailSignUp");
+        //creating user obj
+        User user = us.createUser(username,email,password);
 
-        System.out.println(username + password + email);
-        return "redirect:/signin";
+        if (user != null)
+            return "redirect:/signin";
+        //incr count var to display error
+        count++;
+        model.addAttribute("count", count);
+        return "sign_up";
+    }
+
+    @GetMapping("/wishlists")
+    public String wishlist(){
+        return "wishlist";
+    }
+
+    @PostMapping("/addWishlist")
+    public String addWishlist(WebRequest params, Model model){
+        String title = params.getParameter("titleWishlist");
+        String desc = params.getParameter("descWishlist");
+
+        model.addAttribute("title", title);
+        model.addAttribute("description", desc);
+        model.addAttribute("wishlists", us.getUser("john","paw").getWishlists());
+
+        return "wishlist";
     }
 
 

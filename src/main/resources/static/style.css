@@ -142,6 +142,13 @@ h1 a {
     transition: all 0.3 ease;
     cursor: pointer;
 }
+
+.emailValidator{
+    color: red;
+    padding-bottom: 10px;
+    font-size: 14px;
+}
+
 .form button:hover,.form button:active,.form button:focus {
     background: #cc3700;
 }

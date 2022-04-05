@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <div class="addWishlist">
+        <form class="wishlist-form" method="POST" action="/addWishlist">
+            <input name="titleWishlist" type="text" placeholder="title" required/>
+            <input name="descWishlist" type="text" placeholder="description" required/>
+            <button type="submit">+</button>
+        </form>
+        <tr th:each="wishlist: ${wishlists}">
+            <td th:text="${wishlist.getTitle()}"></td>
+            <td th:text="${wishlist.getDescription()}"></td>
+        </tr>
+        <p th:if="${session.containsKey(user)}" th:text="${session.user}">John Doe</p>
+    </div>
+</head>
+<body>
+
+</body>
+</html>
