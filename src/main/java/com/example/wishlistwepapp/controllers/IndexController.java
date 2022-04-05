@@ -46,9 +46,9 @@ public class IndexController {
 
     @PostMapping("/signedin")
     public String signedIn(HttpSession session, WebRequest loginCreds, Model model){
-        String username = loginCreds.getParameter("usernameSignIn");
+        String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
-        User userToDisplay = us.getUser(username,password);
+        User userToDisplay = us.getUser(email,password);
 
         if(userToDisplay == null)
             return "redirect:/signin";
@@ -56,8 +56,8 @@ public class IndexController {
         model.addAttribute("user", userToDisplay);
         session.setAttribute("user",userToDisplay);
 
-        System.out.println(username + password);
-        return "wishlist";
+        System.out.println(email + password);
+        return "index";
     }
 
     @PostMapping("/signedup")

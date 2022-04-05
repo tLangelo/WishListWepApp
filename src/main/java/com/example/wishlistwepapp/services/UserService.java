@@ -1,6 +1,7 @@
 package com.example.wishlistwepapp.services;
 
 import com.example.wishlistwepapp.models.User;
+import com.example.wishlistwepapp.repositories.DataBase;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -18,15 +19,18 @@ public class UserService {
     public User createUser(String name, String email, String password){
         if(!isEmailValid(email))
             return null;
-        else
-            return new User(name, email, password);
+
+        DataBase.connectToDB();
+        DataBase.addUser(new User(name, email, password));
+        DataBase.closeConnection();
+
+        return new User(name, email, password);
     }
 
-    public void deleteUser(){
-        //placeholder
-        ArrayList<User> placeholder = new ArrayList<>(Arrays.asList(new User("Hej","@.","123")));
-
-        //placeholder.removeIf(user::equals);
+    public void deleteUser(String email){
+        DataBase.connectToDB();
+        DataBase.removeUser(DataBase.getUserByEmail(email));
+        DataBase.closeConnection();
     }
 
     private boolean isEmailValid(String tar){
@@ -37,8 +41,15 @@ public class UserService {
             return false;
     }
 
-    public User getUser(String name, String password){
-        return new User(name, password);
+    public User getUser(String email, String password){
+        DataBase.connectToDB();
+        User user = DataBase.getUserByEmail(email);
+        DataBase.closeConnection();
+
+        if(!user.getPassword().matches(password))
+            return null;
+
+        return user;
     }
 
     public User getSingleUser(){
