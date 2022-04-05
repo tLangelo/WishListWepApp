@@ -123,15 +123,15 @@ public class DataBase {
                 int col0 = resultSet.getInt("user_id");
                 String col1 = resultSet.getString("user_name");
                 String col2 = resultSet.getString("user_email");
-                //String col3 = resultSet.getString("user_password");
+                String col3 = resultSet.getString("user_password");
 
                 ArrayList<WishList> wishLists = getWishLists(col0);
 
 
 
-                toReturn = new User(col0, col1, col2, null, wishLists);
+                toReturn = new User(col0, col1, col2, col3, wishLists);
 
-                System.out.printf("\t| %-4s | %-7s | %-33s | %-55s |", col0, col1, col2, wishLists);
+                System.out.printf("\t| %-4s | %-7s | %-33s | %-55s |", col0, col1, col2, col3);
                 System.out.println();
             } catch (SQLException e) {
                 e.printStackTrace();

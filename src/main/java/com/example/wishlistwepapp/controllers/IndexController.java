@@ -24,7 +24,7 @@ public class IndexController {
     private final UserService us = UserService.getInstance();
 
 
-
+    private User userToDisplay;
 
 
     @GetMapping("/")
@@ -48,7 +48,7 @@ public class IndexController {
     public String signedIn(HttpSession session, WebRequest loginCreds, Model model){
         String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
-        User userToDisplay = us.getUser(email,password);
+        userToDisplay = us.getUser(email,password);
 
         if(userToDisplay == null)
             return "redirect:/signin";
@@ -57,7 +57,7 @@ public class IndexController {
         session.setAttribute("user",userToDisplay);
 
         System.out.println(email + password);
-        return "index";
+        return "wishlist";
     }
 
     @PostMapping("/signedup")
@@ -89,9 +89,10 @@ public class IndexController {
         String title = params.getParameter("titleWishlist");
         String desc = params.getParameter("descWishlist");
 
+
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
-        model.addAttribute("wishlists", us.getUser("john","paw").getWishlists());
+        model.addAttribute("wishlists", userToDisplay.getWishlists());
 
         return "wishlist";
     }
@@ -142,6 +143,7 @@ public class IndexController {
         return user.toString();
     }
      */
+
 
 
 
