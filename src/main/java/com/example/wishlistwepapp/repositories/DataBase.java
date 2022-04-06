@@ -500,20 +500,30 @@ public class DataBase {
     }
 
     public static void updateWishTitle(Wish wish, String newTitle){
+        sqlString = "UPDATE wishes SET title = " + "'" + newTitle + "' WHERE wish_id = " + "'" + wish.getId() + "'";
 
+        executeSqlString(sqlString);
     }
 
     public static void updateWishDescription(Wish wish, String newDescription){
+        sqlString = "UPDATE wishes SET description = " + "'" + newDescription + "' WHERE wish_id = " + "'" + wish.getId() + "'";
 
+        executeSqlString(sqlString);
     }
 
-    public static void updateWishPrice(Wish wish, String newPrice){
+    public static void updateWishPrice(Wish wish, int newPrice){
 
-        int price = Integer.valueOf(newPrice);
+        sqlString = "UPDATE wishes SET price = " + "'" + newPrice + "' WHERE wish_id = " + "'" + wish.getId() + "'";
+
+        executeSqlString(sqlString);
 
     }
 
     public static void updateWishListUrl(Wish wish, String newURL){
+
+        sqlString = "UPDATE wishes SET url_link = " + "'" + newURL + "' WHERE wish_id = " + "'" + wish.getId() + "'";
+
+        executeSqlString(sqlString);
 
     }
 

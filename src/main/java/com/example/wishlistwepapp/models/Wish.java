@@ -23,6 +23,10 @@ public class Wish {
         this.price = price;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
