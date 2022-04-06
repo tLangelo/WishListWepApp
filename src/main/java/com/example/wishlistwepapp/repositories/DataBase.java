@@ -19,22 +19,9 @@ public class DataBase {
     public static void main(String[] args) {
         connectToDB();
 
-
-        User john = getUserByEmail("johnNLarsen@mail.dk");
-        User lars = getUserByEmail("larslarsen@jyskmail.dk");
-        User peter = getUserByEmail("peterpan@mail.dk");
-
-
-        WishList list = getWishListByTitle(lars, "julegaver");
-        System.out.println(list);
-        Wish wish = getWishByTitle(list, "Barbie");
-        System.out.println(wish);
-
-        removeWish(list, wish);
-        System.out.println(lars);
-        //System.out.println(lars);
-        //System.out.println(peter);
-
+        viewUsers();
+        viewWishLists();
+        viewWishes();
 
         closeConnection();
     }
@@ -239,8 +226,7 @@ public class DataBase {
 
     private static void viewWishLists(){
 
-
-        String query = "SELECT * FROM wish_lists WHERE user_id = " + 10 + ";";
+        String query = "SELECT * FROM wish_lists;";
 
         try {
             statement = connection.createStatement(
@@ -252,7 +238,10 @@ public class DataBase {
         }
 
 
-        ArrayList<WishList> wishLists = new ArrayList<>();
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
+        System.out.printf("\t| %-11s | %-11s | %-25s | %-70s |\n", "Wishlist ID", "user ID", "Title", "Description");
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
+
 
         while (true){
             try {
@@ -262,14 +251,14 @@ public class DataBase {
                 else{
 
                     int col0 = resultSet.getInt("wish_list_id");
-                    String col1 = resultSet.getString("title");
-                    String col2 = resultSet.getString("description");
+                    int col1 = resultSet.getInt("user_id");
+                    String col2 = resultSet.getString("title");
+                    String col3 = resultSet.getString("description");
 
 
-                    System.out.println(col0 + ", " + col1 + ", " + col2);
-                    WishList wishList = new WishList(col0, col1, col2);
-                    System.out.println(wishList);
-                    wishLists.add(wishList);
+                    System.out.printf("\t| %-11s | %-11s | %-25s | %-70s |", col0, col1, col2, col3);
+                    System.out.println();
+
 
                 }
 
@@ -279,7 +268,7 @@ public class DataBase {
             }
         }
 
-        System.out.println("wishLists: \n" + wishLists);
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
 
     }
 
@@ -438,6 +427,58 @@ public class DataBase {
 
         }
 
+
+    }
+
+    private static void viewWishes(){
+
+        String query = "SELECT * FROM wishes;";
+
+        try {
+            statement = connection.createStatement(
+                    ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY);
+            resultSet = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+
+
+
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
+        System.out.printf("\t| %-11s | %-11s | %-25s | %-70s |\n", "Wish ID", "Wishlist ID", "Title", "Description");
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
+
+
+        while (true){
+            try {
+                if (!resultSet.next()) {
+                    break;
+                }
+                else{
+
+                    int col0 = resultSet.getInt("wish_id");
+                    int col1 = resultSet.getInt("wish_list_id");
+                    String col2 = resultSet.getString("title");
+                    String col3 = resultSet.getString("description");
+
+
+                    System.out.printf("\t| %-11s | %-11s | %-25s | %-70s |", col0, col1, col2, col3);
+                    System.out.println();
+
+
+
+                }
+
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("\t|--------------------------------------------------------------------------------------------------------------------------------|");
 
     }
 
