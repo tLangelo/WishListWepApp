@@ -57,7 +57,7 @@ public class IndexController {
         session.setAttribute("user",userToDisplay);
 
         System.out.println(username + password);
-        return "wishlist";
+        return "index";
     }
 
     @PostMapping("/signedup")
