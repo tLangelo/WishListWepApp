@@ -23,6 +23,10 @@ public class Wish {
         this.price = price;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -41,7 +45,7 @@ public class Wish {
 
     @Override
     public String toString() {
-        return "Wish{" +
+        return "- Wish {" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

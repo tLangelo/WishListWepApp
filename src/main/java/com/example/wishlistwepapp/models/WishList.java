@@ -7,7 +7,7 @@ public class WishList {
     private int id;
     private String title;
     private String description;
-    private ArrayList<Wish> wishes;
+    private ArrayList<Wish> wishes = new ArrayList<>();
 
 
 
@@ -58,11 +58,17 @@ public class WishList {
 
     @Override
     public String toString() {
-        return "WishList{" +
+
+        String wishesFomatted = "\n";
+
+        for (Wish wish : wishes) {
+            wishesFomatted += "\t\t" + wish + "\n";
+        }
+
+        return "- WishList {" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
-                ", wishes=" + wishes +
-                '}';
+                wishesFomatted;
     }
 }

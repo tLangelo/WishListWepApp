@@ -88,12 +88,25 @@ public class User {
 
     @Override
     public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
-                ", wishlists=" + wishlists +
-                '}';
+
+
+
+        String wishListsAsString = "";
+
+        for (WishList wishList : wishlists) {
+            wishListsAsString += "\t" + wishList + "\n";
+        }
+
+        String formattetColNames = String.format("| %-4s | %-15s | %-33s | %-25s |", "Id", "Name", "E-mail", "Password");
+        String formattetData = String.format("| %-4s | %-15s | %-33s | %-25s |", this.id, this.name, this.email, this.password);
+
+
+        return "|----------------------------------------------------------------------------------------|\n" +
+                formattetColNames + "\n" +
+                "|----------------------------------------------------------------------------------------|\n" +
+                formattetData +
+                "\n\n"
+                + wishListsAsString +
+                "|----------------------------------------------------------------------------------------|\n";
     }
 }
