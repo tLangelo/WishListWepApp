@@ -10,13 +10,11 @@
         <div class="header-wrapper">
             <div class="header">
                 <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
-                <div class="menu-bar">
-                    <ul class="welcomeMessage" th:if="${user != null}" th:text="${user.getName()}"></ul>
-                    <ul th:unless="${user != null}"></ul>
+                    <form class="welcomeMessage" th:if="${user != null}" th:text="${user.getName()}"></form>
+                    <form th:unless="${user != null}"></form>
                     <form method="GET" action="/signin">
                         <input class="signInClass" type="submit" value="Sign in">
                     </form>
-                </div>
             </div>
         </div>
         <div class="article1">

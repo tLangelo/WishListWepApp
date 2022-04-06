@@ -75,6 +75,9 @@ public class User {
     }
 
     public ArrayList<WishList> getWishlists() {
+        DataBase.connectToDB();
+        wishlists = DataBase.getWishLists(this.id);
+        DataBase.closeConnection();
 
         return wishlists;
     }
