@@ -19,20 +19,8 @@ public class DataBase {
     public static void main(String[] args) {
         connectToDB();
 
-
-        User john = getUserByEmail("johnNLarsen@mail.dk");
-        User lars = getUserByEmail("larslarsen@jyskmail.dk");
         User peter = getUserByEmail("peterpan@mail.dk");
-        WishList list = getWishListByTitle(john, "Min føzdag");
-        WishList list1 = getWishListByTitle(john, "julegaver");
-        WishList list2 = getWishListByTitle(peter, "Bryllups gaver");
-
-        //Wish wish = getWishByTitle(list2, "Beer");
-
-
-
-        //removeWish(list2, wish);
-
+        System.out.println(peter);
 
         closeConnection();
     }
@@ -98,6 +86,42 @@ public class DataBase {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public static void viewUsers(){
+
+        sqlString = "SELECT * FROM users;";
+
+        try {
+            statement = connection.createStatement(
+                    ResultSet.TYPE_SCROLL_INSENSITIVE,
+                    ResultSet.CONCUR_READ_ONLY);
+            resultSet = statement.executeQuery(sqlString);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
+        System.out.println("\t|----------------------------------------------------|");
+        while(true) {
+
+            try {
+                if (!resultSet.next()) break;
+                int col0 = resultSet.getInt("user_id");
+                String col1 = resultSet.getString("user_name");
+                String col2 = resultSet.getString("user_email");
+                String col3 = resultSet.getString("user_password");
+
+
+
+                System.out.printf("\t| %-4s | %-7s | %-33s | %-55s |", col0, col1, col2, col3);
+                System.out.println();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }//end while loop
+        System.out.println("\t|----------------------------------------------------|");
+
     }
 
     public static User getUserByEmail(String userEmail){
@@ -195,19 +219,20 @@ public class DataBase {
 
     }
 
-    private static ArrayList<WishList> getWishLists(int userId){
+    private static void viewWishLists(){
 
 
-        String sqlString = "SELECT * FROM wish_lists WHERE user_id = " + userId + ";";
+        String query = "SELECT * FROM wish_lists WHERE user_id = " + 10 + ";";
 
         try {
             statement = connection.createStatement(
                     ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY);
-            resultSet = statement.executeQuery(sqlString);
+            resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
         ArrayList<WishList> wishLists = new ArrayList<>();
 
@@ -216,21 +241,73 @@ public class DataBase {
                 if (!resultSet.next()) {
                     break;
                 }
+                else{
 
                     int col0 = resultSet.getInt("wish_list_id");
                     String col1 = resultSet.getString("title");
                     String col2 = resultSet.getString("description");
 
-                    ArrayList<Wish> wishes = getWishes(col0);
 
                     System.out.println(col0 + ", " + col1 + ", " + col2);
+                    WishList wishList = new WishList(col0, col1, col2);
+                    System.out.println(wishList);
+                    wishLists.add(wishList);
 
-                    wishLists.add(new WishList(col0, col1, col2, wishes));
                 }
+
+            }
+            catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        System.out.println("wishLists: \n" + wishLists);
+
+    }
+
+    private static ArrayList<WishList> getWishLists(int userId){
+
+
+        String query = "SELECT * FROM wish_lists WHERE user_id = " + userId + ";";
+
+        ResultSet rs = null;
+
+        try {
+            statement = connection.createStatement(
+                    ResultSet.TYPE_FORWARD_ONLY,
+                    ResultSet.CONCUR_READ_ONLY);
+            rs = statement.executeQuery(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        ArrayList<Wish> wishes = new ArrayList<>();
+        ArrayList<WishList> wishLists = new ArrayList<>();
+
+        while (true){
+            try {
+                if (!rs.next()) {
+                    break;
+                }
+                else{
+
+                    int col0 = rs.getInt("wish_list_id");
+                    String col1 = rs.getString("title");
+                    String col2 = rs.getString("description");
+
+                    wishes = getWishes(col0);
+
+                    System.out.println(col0 + ", " + col1 + ", " + col2);
+                    WishList wishList = new WishList(col0, col1, col2, wishes);
+                    wishLists.add(wishList);
+                }
+
+            }
              catch (SQLException e) {
                 e.printStackTrace();
             }
         }
+
         return wishLists;
     }
 
@@ -238,7 +315,7 @@ public class DataBase {
 
         int userId = user.getId();
 
-        sqlString =  "SELECT * " +
+        String query =  "SELECT * " +
                             "FROM wish_lists " +
                             "WHERE " +
                                 "user_id = " + userId + " AND " +
@@ -248,7 +325,7 @@ public class DataBase {
             statement = connection.createStatement(
                         ResultSet.TYPE_FORWARD_ONLY,
                         ResultSet.CONCUR_READ_ONLY);
-            resultSet = statement.executeQuery(sqlString);
+            resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -377,15 +454,16 @@ public class DataBase {
 
     private static ArrayList<Wish> getWishes(int wishListId) {
 
-        System.out.println("INSIDE GET WISHES FOR WISHLIST_ID: " + wishListId);
 
         String sqlString = "SELECT * FROM wishes WHERE wish_list_id = " + wishListId + ";";
+        ResultSet rs = null;
+
 
         try {
             statement = connection.createStatement(
                     ResultSet.TYPE_FORWARD_ONLY,
                     ResultSet.CONCUR_READ_ONLY);
-            resultSet = statement.executeQuery(sqlString);
+            rs = statement.executeQuery(sqlString);
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -394,16 +472,16 @@ public class DataBase {
 
         while (true) {
             try {
-                if (!resultSet.next()) {
+                if (!rs.next()) {
                     break;
                 }
 
 
-                    int col0 = resultSet.getInt("wish_id");
-                    String col1 = resultSet.getString("title");
-                    String col2 = resultSet.getString("description");
-                    String col3 = resultSet.getString("url_link");
-                    int col4 = resultSet.getInt("price");
+                    int col0 = rs.getInt("wish_id");
+                    String col1 = rs.getString("title");
+                    String col2 = rs.getString("description");
+                    String col3 = rs.getString("url_link");
+                    int col4 = rs.getInt("price");
 
                     Wish wish = new Wish(col0, col1, col2, col3, col4);
                     System.out.println(wish);
