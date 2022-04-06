@@ -35,6 +35,17 @@ h1 {
     width: 50%
 }
 
+h2 {
+    width: 100%;
+    margin-top: 30px;
+    margin-bottom: 20px;
+    align-content: center;
+    text-align: center;
+    font-size: 35px;
+    text-transform: uppercase;
+    color: rgb(117, 117, 117);
+}
+
 .welcomeMessage {
     display: flex;
     flex-direction: row;
@@ -94,7 +105,7 @@ h1 a {
     width: 100px !important;
 }
 
-.signin-page, .signup-page {
+.signin-page, .signup-page, addWishlist-page {
     width: 300px;
     padding: 8% 0 0;
     margin: auto;
