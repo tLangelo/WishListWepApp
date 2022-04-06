@@ -8,13 +8,8 @@
 <body>
     <div class="container">
         <div class="header-wrapper">
-            <div class="header">
-                <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
-                    <form class="welcomeMessage" th:if="${user != null}" th:text="${user.getName()}"></form>
-                    <form th:unless="${user != null}"></form>
-                    <form method="GET" action="/signin">
-                        <input class="signInClass" type="submit" value="Sign in">
-                    </form>
+            <div class="header" th:replace="fragments/general.html :: headerFragment(user=${user})">
+
             </div>
         </div>
         <div class="article1">

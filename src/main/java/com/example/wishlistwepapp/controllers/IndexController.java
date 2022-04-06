@@ -57,7 +57,7 @@ public class IndexController {
         session.setAttribute("user",userToDisplay);
 
         System.out.println(email + password);
-        return "wishlist";
+        return "index";
     }
 
     @PostMapping("/signedup")
@@ -97,7 +97,7 @@ public class IndexController {
 
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
-        model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element
+        model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
 
         return "wishlist";
     }

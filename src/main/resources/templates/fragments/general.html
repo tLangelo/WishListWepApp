@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{style.css}" href="style.css">
+</head>
+<body>
+    <div class="header" th:fragment="headerFragment(user)">
+    <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
+    <form class="welcomeMessage"  th:if="${user != null}" th:text="${user.getName()}"></form>
+    <form th:unless="${user != null}"></form>
+    <form method="GET" action="/signin">
+        <input class="signInClass" th:if="${user != null}" type="submit" value="Sign out">
+        <input class="signInClass" th:unless="${user != null}" type="submit" value="Sign in">
+        </form>
+    </div>
+</body>
+</html>
