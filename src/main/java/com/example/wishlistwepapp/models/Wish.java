@@ -41,7 +41,7 @@ public class Wish {
 
     @Override
     public String toString() {
-        return "Wish{" +
+        return "- Wish {" +
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +

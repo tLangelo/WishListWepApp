@@ -19,8 +19,16 @@ public class DataBase {
     public static void main(String[] args) {
         connectToDB();
 
+
+        User john = getUserByEmail("johnNLarsen@mail.dk");
+        User lars = getUserByEmail("larslarsen@jyskmail.dk");
         User peter = getUserByEmail("peterpan@mail.dk");
-        System.out.println(peter);
+        User trip = getUserByEmail("christianstrip@hotmail.com");
+
+        System.out.println(john);
+        //System.out.println(lars);
+        //System.out.println(peter);
+        System.out.println(trip);
 
         closeConnection();
     }
@@ -102,7 +110,9 @@ public class DataBase {
         }
 
 
-        System.out.println("\t|----------------------------------------------------|");
+        System.out.println("\t|----------------------------------------------------------------------------------------|");
+        System.out.printf("\t| %-4s | %-15s | %-33s | %-25s |\n", "Id", "User Name", "E-mail", "Password");
+        System.out.println("\t|----------------------------------------------------------------------------------------|");
         while(true) {
 
             try {
@@ -114,13 +124,13 @@ public class DataBase {
 
 
 
-                System.out.printf("\t| %-4s | %-7s | %-33s | %-55s |", col0, col1, col2, col3);
+                System.out.printf("\t| %-4s | %-15s | %-33s | %-25s |", col0, col1, col2, col3);
                 System.out.println();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }//end while loop
-        System.out.println("\t|----------------------------------------------------|");
+        System.out.println("\t|----------------------------------------------------------------------------------------|");
 
     }
 
@@ -139,7 +149,6 @@ public class DataBase {
 
         User toReturn = null;
 
-        System.out.println("\t|----------------------------------------------------|");
         while(true) {
 
             try {
@@ -155,13 +164,11 @@ public class DataBase {
 
                 toReturn = new User(col0, col1, col2, col3, wishLists);
 
-                System.out.printf("\t| %-4s | %-7s | %-33s | %-55s |", col0, col1, col2, col3);
-                System.out.println();
+
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }//end while loop
-        System.out.println("\t|----------------------------------------------------|");
+        }
 
         return toReturn;
     }
@@ -265,7 +272,7 @@ public class DataBase {
 
     }
 
-    private static ArrayList<WishList> getWishLists(int userId){
+    public static ArrayList<WishList> getWishLists(int userId){
 
 
         String query = "SELECT * FROM wish_lists WHERE user_id = " + userId + ";";
@@ -297,7 +304,6 @@ public class DataBase {
 
                     wishes = getWishes(col0);
 
-                    System.out.println(col0 + ", " + col1 + ", " + col2);
                     WishList wishList = new WishList(col0, col1, col2, wishes);
                     wishLists.add(wishList);
                 }
@@ -476,7 +482,6 @@ public class DataBase {
                     break;
                 }
 
-
                     int col0 = rs.getInt("wish_id");
                     String col1 = rs.getString("title");
                     String col2 = rs.getString("description");
@@ -484,7 +489,6 @@ public class DataBase {
                     int col4 = rs.getInt("price");
 
                     Wish wish = new Wish(col0, col1, col2, col3, col4);
-                    System.out.println(wish);
                     wishes.add(wish);
                 }
              catch (SQLException e) {
