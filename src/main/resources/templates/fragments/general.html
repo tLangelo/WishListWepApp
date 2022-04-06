@@ -15,5 +15,14 @@
         <input class="signInClass" th:unless="${user != null}" type="submit" value="Sign in">
         </form>
     </div>
+
+    <div th:fragment="wishlistFragment(currUser)">
+        <div class="form" th:if="${currUser.getWishlists() != null}" th:each="wishlist: ${currUser.getWishlists()}">
+            <tr>
+                <td th:text="${wishlist.getTitle()}">Title</td>
+                <td th:text="${wishlist.getDescription()}">Description</td>
+            </tr>
+        </div>
+    </div>
 </body>
 </html>

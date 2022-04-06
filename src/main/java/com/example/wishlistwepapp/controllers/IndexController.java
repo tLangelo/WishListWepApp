@@ -16,6 +16,7 @@ import org.springframework.web.context.request.WebRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 @Controller
 public class IndexController {
@@ -50,14 +51,17 @@ public class IndexController {
         String password = loginCreds.getParameter("passwordSignIn");
         userToDisplay = us.getUser(email,password);
 
+
         if(userToDisplay == null)
             return "redirect:/signin";
 
         model.addAttribute("user", userToDisplay);
+        model.addAttribute("wishlists", userToDisplay.getWishlists());
         session.setAttribute("user",userToDisplay);
 
+
         System.out.println(email + password);
-        return "index";
+        return "wishlist";
     }
 
     @PostMapping("/signedup")
@@ -97,8 +101,9 @@ public class IndexController {
 
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
-        model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
-
+        model.addAttribute("user", userToDisplay);
+        //model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
+        System.out.println(userToDisplay.getWishlists());
         return "wishlist";
     }
 
