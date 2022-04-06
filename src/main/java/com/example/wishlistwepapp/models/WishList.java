@@ -7,7 +7,7 @@ public class WishList {
     private int id;
     private String title;
     private String description;
-    private ArrayList<Wish> wishes;
+    private ArrayList<Wish> wishes = new ArrayList<>();
 
 
 

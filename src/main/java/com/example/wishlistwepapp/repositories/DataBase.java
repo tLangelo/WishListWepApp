@@ -23,12 +23,18 @@ public class DataBase {
         User john = getUserByEmail("johnNLarsen@mail.dk");
         User lars = getUserByEmail("larslarsen@jyskmail.dk");
         User peter = getUserByEmail("peterpan@mail.dk");
-        User trip = getUserByEmail("christianstrip@hotmail.com");
 
-        System.out.println(john);
+
+        WishList list = getWishListByTitle(lars, "julegaver");
+        System.out.println(list);
+        Wish wish = getWishByTitle(list, "Barbie");
+        System.out.println(wish);
+
+        removeWish(list, wish);
+        System.out.println(lars);
         //System.out.println(lars);
         //System.out.println(peter);
-        System.out.println(trip);
+
 
         closeConnection();
     }
@@ -87,7 +93,7 @@ public class DataBase {
 
     public static void removeUser(User user){
 
-        sqlString = "DELETE FROM users WHERE user_email = " + "'" + user.getEmail() + "'";
+        sqlString = "DELETE FROM users WHERE user_id = " + "'" + user.getId() + "'";
         try {
             statement = connection.createStatement();
             statement.executeUpdate(sqlString);
@@ -129,7 +135,7 @@ public class DataBase {
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-        }//end while loop
+        }
         System.out.println("\t|----------------------------------------------------------------------------------------|");
 
     }
@@ -222,7 +228,12 @@ public class DataBase {
         }
     }
 
-    public void removeWishList(){
+    public void removeWishList(User user, WishList wishList){
+
+        sqlString = "DELETE FROM wish_lists " +
+                "WHERE user_id = '" + user.getId() + "' AND " +
+                "wish_list_id = '" + wishList.getId() + "';";
+        executeSqlString(sqlString);
 
     }
 
@@ -409,10 +420,24 @@ public class DataBase {
 
     public static void removeWish(WishList wishList, Wish wish){
 
-        sqlString = "DELETE FROM wishes " +
-                    "WHERE wish_list_id = '" + wishList.getId() + "' AND " +
-                    "wish_title = '" + wish.getTitle() + "';";
-        executeSqlString(sqlString);
+
+        int list_id = wishList.getId();
+        System.out.println(list_id);
+        int wish_id = wish.getId();
+        System.out.println(wish_id);
+
+        String query = "DELETE FROM wishes " +
+                    "WHERE wish_list_id = " + wishList.getId() + " AND " +
+                    "wish_id = " + wish.getId() + ";";
+
+        try {
+            statement = connection.createStatement();
+            statement.executeUpdate(query);
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+        }
+
 
     }
 
@@ -421,7 +446,7 @@ public class DataBase {
         sqlString =  "SELECT * " +
                 "FROM wishes " +
                 "WHERE " +
-                "wish_list_id = '" + wishList.getId() + "' AND " +
+                "wish_list_id = " + wishList.getId() + " AND " +
                 "title = '" + title + "';";
 
         try {
@@ -439,7 +464,7 @@ public class DataBase {
 
             try {
                 if (!resultSet.next()) break;
-                int col0 = resultSet.getInt("wish_list_id");
+                int col0 = resultSet.getInt("wish_id");
                 String col1 = resultSet.getString("title");
                 String col2 = resultSet.getString("description");
                 String col3 = resultSet.getString("url_link");
