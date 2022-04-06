@@ -75,6 +75,9 @@ public class User {
     }
 
     public ArrayList<WishList> getWishlists() {
+        DataBase.connectToDB();
+        wishlists = DataBase.getWishLists(this.id);
+        DataBase.closeConnection();
 
         return wishlists;
     }
@@ -86,9 +89,11 @@ public class User {
     @Override
     public String toString() {
         return "User{" +
-                "name='" + name + '\'' +
+                "id=" + id +
+                ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
                 ", password='" + password + '\'' +
+                ", wishlists=" + wishlists +
                 '}';
     }
 }

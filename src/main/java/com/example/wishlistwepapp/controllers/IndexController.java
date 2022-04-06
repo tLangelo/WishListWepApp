@@ -24,7 +24,7 @@ public class IndexController {
     private final UserService us = UserService.getInstance();
 
 
-
+    private User userToDisplay;
 
 
     @GetMapping("/")
@@ -46,9 +46,9 @@ public class IndexController {
 
     @PostMapping("/signedin")
     public String signedIn(HttpSession session, WebRequest loginCreds, Model model){
-        String username = loginCreds.getParameter("usernameSignIn");
+        String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
-        User userToDisplay = us.getUser(username,password);
+        userToDisplay = us.getUser(email,password);
 
         if(userToDisplay == null)
             return "redirect:/signin";
@@ -56,8 +56,8 @@ public class IndexController {
         model.addAttribute("user", userToDisplay);
         session.setAttribute("user",userToDisplay);
 
-        System.out.println(username + password);
-        return "index";
+        System.out.println(email + password);
+        return "wishlist";
     }
 
     @PostMapping("/signedup")
@@ -88,10 +88,16 @@ public class IndexController {
     public String addWishlist(WebRequest params, Model model){
         String title = params.getParameter("titleWishlist");
         String desc = params.getParameter("descWishlist");
+        WishList wishList = new WishList(title, desc);
+        System.out.println(userToDisplay.getWishlists());
+
+
+        wls.createWishlist(userToDisplay, wishList);
+
 
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
-        model.addAttribute("wishlists", us.getUser("john","paw").getWishlists());
+        model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element
 
         return "wishlist";
     }
@@ -142,6 +148,7 @@ public class IndexController {
         return user.toString();
     }
      */
+
 
 
 
