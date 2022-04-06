@@ -7,7 +7,7 @@
 </head>
 <body>
     <div class="header" th:fragment="headerFragment(user)">
-    <h1><a th:href="@{/}"> MAKE A WISH LIST </a></h1>
+    <h1><a th:href="@{/}">MAKE A WISH LIST</a></h1>
     <form class="welcomeMessage"  th:if="${user != null}" th:text="${user.getName()}"></form>
     <form th:unless="${user != null}"></form>
     <form method="GET" action="/signin">
@@ -18,10 +18,13 @@
 
     <div th:fragment="wishlistFragment(currUser)">
         <div class="wishlistsClass">
-            <div class="wishlistFragmentObj, form" th:if="${currUser.getWishlists() != null}" th:each="wishlist: ${currUser.getWishlists()}">
+            <div class="wishlistFragmentObj, form" th:if="${wishlists != null}" th:each="wishlist: ${wishlists}">
                     <ul>
+                        <form method="POST" th:action="@{/wishes/{wishListName}(wishListName = ${wishlist.getTitle()})}">
                         <li class="wishlistFragment1" th:text="${wishlist.getTitle()}">Title<br></li>
                         <li class="wishlistFragment2" th:text="${wishlist.getDescription()}">Description</li>
+                            <button type="submit">Add Wish</button>
+                        </form>
                     </ul>
             </div>
         </div>

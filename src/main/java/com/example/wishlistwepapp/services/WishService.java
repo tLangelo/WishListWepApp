@@ -1,7 +1,9 @@
 package com.example.wishlistwepapp.services;
 
+import com.example.wishlistwepapp.models.User;
 import com.example.wishlistwepapp.models.Wish;
 import com.example.wishlistwepapp.models.WishList;
+import com.example.wishlistwepapp.repositories.DataBase;
 
 public class WishService {
     //Singleton
@@ -13,17 +15,20 @@ public class WishService {
         return single_instance;
     }
 
-    //obj
-    WishList wl = new WishList("Cykel", "Rød cykel");
 
-    /*public Wish createWish(){
-        return new Wish();
+    public Wish createWish(WishList wishList, Wish wish){
+
+        DataBase.connectToDB();
+        DataBase.addWish(wishList, wish);
+        DataBase.closeConnection();
+
+        return wish;
     }
-     */
 
+    /*
     public void deleteWish(Wish wish){
         wl.getWishes().removeIf(wish::equals);
-    }
+    }*/
 
     public void editWish(Wish wish){
 

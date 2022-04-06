@@ -1,16 +1,14 @@
 package com.example.wishlistwepapp.controllers;
 
 import com.example.wishlistwepapp.models.User;
+import com.example.wishlistwepapp.models.Wish;
 import com.example.wishlistwepapp.models.WishList;
 import com.example.wishlistwepapp.services.UserService;
 import com.example.wishlistwepapp.services.WishService;
 import com.example.wishlistwepapp.services.WishlistService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,6 +24,7 @@ public class IndexController {
 
 
     private User userToDisplay;
+    private ArrayList<WishList> currUserWishlist;
 
 
     @GetMapping("/")
@@ -50,13 +49,14 @@ public class IndexController {
         String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
         userToDisplay = us.getUser(email,password);
+        currUserWishlist = userToDisplay.getWishlists();
 
 
         if(userToDisplay == null)
             return "redirect:/signin";
 
         model.addAttribute("user", userToDisplay);
-        model.addAttribute("wishlists", userToDisplay.getWishlists());
+        model.addAttribute("wishlists", currUserWishlist);
         session.setAttribute("user",userToDisplay);
 
 
@@ -102,7 +102,39 @@ public class IndexController {
         model.addAttribute("title", title);
         model.addAttribute("description", desc);
         model.addAttribute("user", userToDisplay);
-        //model.addAttribute("wishlists", userToDisplay.getWishlists()); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
+        model.addAttribute("wishlists", currUserWishlist); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
+        System.out.println(userToDisplay.getWishlists());
+        return "wishlist";
+    }
+
+    @GetMapping("/wishes")
+    public String wishes(Model model){
+        model.addAttribute(currUserWishlist);
+        return "wish";
+    }
+
+    @PostMapping("/wishes/{wishListName}")
+    public String addWish(@PathVariable("wishListName") String name, WebRequest params, Model model){
+        model.addAttribute("wlsName", currUserWishlist);
+        String wishlistTitle = params.getParameter("titleWishlist");
+        String title = params.getParameter("titleWish");
+        String desc = params.getParameter("descWish");
+        int price;
+        try{
+            price = Integer.parseInt(params.getParameter("priceWish"));
+        }catch(NumberFormatException e){
+            price = 0;
+        }
+
+        String url = params.getParameter("urlWish");
+        Wish wish = new Wish(title, desc, price, url);
+
+        ws.createWish(wls.getWishlist(userToDisplay, wishlistTitle), wish);
+
+        model.addAttribute("title", title);
+        model.addAttribute("description", desc);
+        model.addAttribute("user", userToDisplay);
+        model.addAttribute("wishlists", userToDisplay.getWishlists());
         System.out.println(userToDisplay.getWishlists());
         return "wishlist";
     }

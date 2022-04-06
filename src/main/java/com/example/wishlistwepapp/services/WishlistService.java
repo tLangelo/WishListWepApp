@@ -22,7 +22,14 @@ public class WishlistService {
         DataBase.connectToDB();
         DataBase.addWishList(user, wishList);
         DataBase.closeConnection();
+    }
 
+    public WishList getWishlist(User user, String title){
+        DataBase.connectToDB();
+        WishList wl = DataBase.getWishListByTitle(user, title);
+        DataBase.closeConnection();
+
+        return wl;
     }
 
     public void deleteWishlist(WishList wishlist){

@@ -8,11 +8,11 @@ public class Wish {
     private String urlAddress;
     private int price;
 
-    public Wish(String title, String description, String urlAddress, int price) {
+    public Wish(String title, String description, int price, String urlAddress) {
         this.title = title;
         this.description = description;
-        this.urlAddress = urlAddress;
         this.price = price;
+        this.urlAddress = urlAddress;
     }
 
     public Wish(int id, String title, String description, String urlAddress, int price) {

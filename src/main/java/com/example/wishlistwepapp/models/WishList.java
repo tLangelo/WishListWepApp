@@ -36,6 +36,7 @@ public class WishList {
         this.wishes = wishes;
     }
 
+
     public String getTitle() {
         return this.title;
     }

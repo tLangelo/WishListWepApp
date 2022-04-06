@@ -126,7 +126,7 @@ h1 a {
     width: 100px !important;
 }
 
-.signin-page, .signup-page, addWishlist-page {
+.signin-page, .signup-page, addWishlist-page, addWish-page {
     width: 300px;
     padding: 8% 0 0;
     margin: auto;
