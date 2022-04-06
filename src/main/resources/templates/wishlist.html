@@ -23,7 +23,6 @@
             </div>
             <div class="form" th:replace="fragments/general.html :: wishlistFragment(currUser=${user})">
             </div>
-                <p th:if="${session.containsKey(user)}" th:text="${session.user}">John Doe</p>
         </div>
     </div>
     <footer>copyright©</footer>

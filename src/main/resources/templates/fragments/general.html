@@ -17,11 +17,13 @@
     </div>
 
     <div th:fragment="wishlistFragment(currUser)">
-        <div class="form" th:if="${currUser.getWishlists() != null}" th:each="wishlist: ${currUser.getWishlists()}">
-            <tr>
-                <td th:text="${wishlist.getTitle()}">Title</td>
-                <td th:text="${wishlist.getDescription()}">Description</td>
-            </tr>
+        <div class="wishlistsClass">
+            <div class="wishlistFragmentObj, form" th:if="${currUser.getWishlists() != null}" th:each="wishlist: ${currUser.getWishlists()}">
+                    <ul>
+                        <li class="wishlistFragment1" th:text="${wishlist.getTitle()}">Title<br></li>
+                        <li class="wishlistFragment2" th:text="${wishlist.getDescription()}">Description</li>
+                    </ul>
+            </div>
         </div>
     </div>
 </body>
