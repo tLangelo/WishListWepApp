@@ -28,7 +28,10 @@ public class IndexController {
 
 
     @GetMapping("/")
-    public String index(){
+    public String index(HttpSession session, Model model){
+        if((boolean)session.getAttribute("isUserLoggedIn"))
+            model.addAttribute("user",(User) session.getAttribute("loggedInUser"));
+
         return "index";
     }
 
@@ -49,18 +52,18 @@ public class IndexController {
         String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
         userToDisplay = us.getUser(email,password);
-        currUserWishlist = userToDisplay.getWishlists();
-
 
         if(userToDisplay == null)
             return "redirect:/signin";
 
+        currUserWishlist = userToDisplay.getWishlists();
+
         model.addAttribute("user", userToDisplay);
         model.addAttribute("wishlists", currUserWishlist);
-        session.setAttribute("user",userToDisplay);
+        //setting session
+        session.setAttribute("loggedInUser",userToDisplay);
+        session.setAttribute("isUserLoggedIn", true);
 
-
-        System.out.println(email + password);
         return "wishlist";
     }
 
@@ -84,27 +87,31 @@ public class IndexController {
     }
 
     @GetMapping("/wishlists")
-    public String wishlist(){
+    public String wishlist(HttpSession session, Model model){
+        if((boolean)session.getAttribute("isUserLoggedIn")){
+            model.addAttribute("user",(User) session.getAttribute("loggedInUser") );
+            model.addAttribute("wishlists", ((User) session.getAttribute("loggedInUser")).getWishlists());
+        }
+
         return "wishlist";
     }
 
     @PostMapping("/addWishlist")
-    public String addWishlist(WebRequest params, Model model){
+    public String addWishlist(HttpSession session, WebRequest params, Model model){
+        if((boolean)session.getAttribute("isUserLoggedIn")){
+            model.addAttribute("user",(User) session.getAttribute("loggedInUser") );
+            model.addAttribute("wishlists", ((User) session.getAttribute("loggedInUser")).getWishlists());
+        }
+
         String title = params.getParameter("titleWishlist");
         String desc = params.getParameter("descWishlist");
         WishList wishList = new WishList(title, desc);
-        System.out.println(userToDisplay.getWishlists());
 
 
         wls.createWishlist(userToDisplay, wishList);
 
 
-        model.addAttribute("title", title);
-        model.addAttribute("description", desc);
-        model.addAttribute("user", userToDisplay);
-        model.addAttribute("wishlists", currUserWishlist); //<-- Der bliver kun returneret et enkelt element -|- Kan man bruge ArrayLists i th?
-        System.out.println(userToDisplay.getWishlists());
-        return "wishlist";
+        return "redirect:/wishlists";
     }
 
     @GetMapping("/wishes")
