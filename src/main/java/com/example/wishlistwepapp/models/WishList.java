@@ -57,6 +57,8 @@ public class WishList {
         this.id = id;
     }
 
+    public void setWishes(ArrayList<Wish> wishes){ this.wishes = wishes;}
+
     @Override
     public String toString() {
 

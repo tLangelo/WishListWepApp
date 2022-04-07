@@ -320,17 +320,17 @@ public class DataBase {
     public static WishList getWishListByTitle(User user, String wishListTitle){
 
         int userId = user.getId();
-
+        String query = "SELECT * FROM wish_lists WHERE user_id="+userId+" AND title='"+wishListTitle+"' LIMIT 1;";
+        /*
         String query =  "SELECT * " +
                             "FROM wish_lists " +
                             "WHERE " +
                                 "user_id = " + userId + " AND " +
-                                "title = '" + wishListTitle + "';";
+                                "title = '" + wishListTitle + "' LIMIT 1;";
+         */
 
         try {
-            statement = connection.createStatement(
-                        ResultSet.TYPE_FORWARD_ONLY,
-                        ResultSet.CONCUR_READ_ONLY);
+            statement = connection.createStatement(ResultSet.TYPE_FORWARD_ONLY, ResultSet.CONCUR_READ_ONLY);
             resultSet = statement.executeQuery(query);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -351,6 +351,7 @@ public class DataBase {
             }
 
         }
+        toReturn.setWishes(getWishes(toReturn.getId()));
 
         return toReturn;
     }

@@ -19,6 +19,7 @@
                 <form class="signin-form" method="POST" action="/signedin">
                     <input name="emailSignIn" type="text" placeholder="email"/>
                     <input name="passwordSignIn" type="password" placeholder="password"/>
+                    <p class=emailValidator th:if="${count >= 1}">Invalid login</p>
                     <button type="submit">login</button>
                     <p class="message">Not registered? <a th:href="@{signup}">Create an account</a></p>
                 </form>

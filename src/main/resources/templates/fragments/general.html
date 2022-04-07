@@ -7,11 +7,11 @@
 </head>
 <body>
     <div class="header" th:fragment="headerFragment(user)">
-    <h1><a th:href="@{/}">MAKE A WISH LIST</a></h1>
-    <form class="welcomeMessage"  th:if="${user != null}" th:text="${user.getName()}"></form>
-    <form th:unless="${user != null}"></form>
-    <form method="GET" action="/signin">
-        <input class="signInClass" th:if="${user != null}" type="submit" value="Sign out">
+        <h1><a th:href="@{/}">MAKE A WISH LIST</a></h1>
+        <form class="welcomeMessage"  th:if="${user != null}" th:text="${user.getName()}"></form>
+        <form th:unless="${user != null}"></form>
+        <form method="GET" action="/signin">
+            <input class="signInClass" th:if="${user != null}" type="submit" value="Sign out">
         <input class="signInClass" th:unless="${user != null}" type="submit" value="Sign in">
         </form>
     </div>
@@ -20,12 +20,24 @@
         <div class="wishlistsClass">
             <div class="wishlistFragmentObj, form" th:if="${wishlists != null}" th:each="wishlist: ${wishlists}">
                     <ul>
-                        <form method="POST" th:action="@{/wishes/{wishListName}(wishListName = ${wishlist.getTitle()})}">
-                        <li class="wishlistFragment1" th:text="${wishlist.getTitle()}">Title<br></li>
-                        <li class="wishlistFragment2" th:text="${wishlist.getDescription()}">Description</li>
+                        <form method="GET" th:action="@{/wishes/{wishListName}(wishListName = ${wishlist.getTitle()})}">
+                            <li class="wishlistFragment1" th:text="${wishlist.getTitle()}">Title<br></li>
+                            <li class="wishlistFragment2" th:text="${wishlist.getDescription()}">Description</li>
                             <button type="submit">Add Wish</button>
                         </form>
                     </ul>
+            </div>
+        </div>
+    </div>
+    <div th:fragment="wishFragment(currUser)">
+        <div class="wishlistsClass">
+            <div class="wishlistFragmentObj, form" th:if="${wishlist != null}" th:each="wish: ${wishlist}">
+                <ul>
+                    <li class="wishlistFragment1" th:text="${wish.getTitle()}">Title<br></li>
+                    <li class="wishlistFragment2" th:text="${wish.getDescription()}">Description</li>
+                    <li class="wishlistFragment3" th:text="${wish.getPrice()}">Price</li>
+                    <li class="wishlistFragment3" th:text="${wish.getUrlAddress()}">url</li>
+                </ul>
             </div>
         </div>
     </div>

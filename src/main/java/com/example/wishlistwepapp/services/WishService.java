@@ -16,13 +16,12 @@ public class WishService {
     }
 
 
-    public Wish createWish(WishList wishList, Wish wish){
+    public void createWish(WishList wishList, Wish wish){
 
         DataBase.connectToDB();
         DataBase.addWish(wishList, wish);
         DataBase.closeConnection();
 
-        return wish;
     }
 
     /*

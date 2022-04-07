@@ -25,12 +25,17 @@ public class IndexController {
 
     private User userToDisplay;
     private ArrayList<WishList> currUserWishlist;
+    private int count = 0;
 
 
     @GetMapping("/")
     public String index(HttpSession session, Model model){
-        if((boolean)session.getAttribute("isUserLoggedIn"))
-            model.addAttribute("user",(User) session.getAttribute("loggedInUser"));
+        if(count > 0){
+            if((boolean)session.getAttribute("isUserLoggedIn"))
+                model.addAttribute("user",(User) session.getAttribute("loggedInUser"));
+        }
+        count++;
+
 
         return "index";
     }
@@ -51,10 +56,18 @@ public class IndexController {
     public String signedIn(HttpSession session, WebRequest loginCreds, Model model){
         String email = loginCreds.getParameter("emailSignIn");
         String password = loginCreds.getParameter("passwordSignIn");
-        userToDisplay = us.getUser(email,password);
-
-        if(userToDisplay == null)
+        if(us.isEmailInDatabase(email))
+            userToDisplay = us.getUser(email,password);
+        else
             return "redirect:/signin";
+
+        int count = 0;
+
+        if(userToDisplay == null){
+            count++;
+            return "redirect:/signin";
+        }
+
 
         currUserWishlist = userToDisplay.getWishlists();
 
@@ -114,16 +127,29 @@ public class IndexController {
         return "redirect:/wishlists";
     }
 
-    @GetMapping("/wishes")
-    public String wishes(Model model){
-        model.addAttribute(currUserWishlist);
+    @GetMapping("/wishes/{wishListName}")
+    public String wishes(@PathVariable("wishListName") String name, HttpSession session, Model model){
+        if((boolean)session.getAttribute("isUserLoggedIn")){
+            session.setAttribute("currUserWishlist",name);
+            model.addAttribute("user",(User) session.getAttribute("loggedInUser") );
+            model.addAttribute("wishlist", wls.getWishlist((User)session.getAttribute("loggedInUser"),name).getWishes());
+            model.addAttribute("selectedWishlist",name);
+        }
+
         return "wish";
     }
 
-    @PostMapping("/wishes/{wishListName}")
-    public String addWish(@PathVariable("wishListName") String name, WebRequest params, Model model){
-        model.addAttribute("wlsName", currUserWishlist);
-        String wishlistTitle = params.getParameter("titleWishlist");
+    @PostMapping("/addWish/{wishListName}")
+    public String addAWish(@PathVariable("wishListName") String name, HttpSession session, WebRequest params, Model model){
+        if((boolean)session.getAttribute("isUserLoggedIn")){
+            model.addAttribute("user",(User) session.getAttribute("loggedInUser") );
+        }
+
+        User sessionUser = (User) session.getAttribute("loggedInUser");
+        WishList currWishlist = sessionUser.getWishlist(name);
+
+        model.addAttribute("wishlist", wls.getWishlist((User)session.getAttribute("loggedInUser"),name).getWishes());
+
         String title = params.getParameter("titleWish");
         String desc = params.getParameter("descWish");
         int price;
@@ -132,68 +158,13 @@ public class IndexController {
         }catch(NumberFormatException e){
             price = 0;
         }
-
         String url = params.getParameter("urlWish");
-        Wish wish = new Wish(title, desc, price, url);
 
-        ws.createWish(wls.getWishlist(userToDisplay, wishlistTitle), wish);
+        Wish wish = new Wish(title,desc,price,url);
+        ws.createWish(currWishlist, wish);
 
-        model.addAttribute("title", title);
-        model.addAttribute("description", desc);
-        model.addAttribute("user", userToDisplay);
-        model.addAttribute("wishlists", userToDisplay.getWishlists());
-        System.out.println(userToDisplay.getWishlists());
-        return "wishlist";
+        return "redirect:/wishes/{wishListName}";
     }
-
-
-
-
-    //work in progress :)
-    /*
-    @GetMapping("/register")
-    @ResponseBody
-    public String showSignUp(HttpServletRequest req, Model model){
-        //setSession(req);
-
-        model.addAttribute("user", req.getSession());
-
-        return "sign_in";
-    }
-
-    @GetMapping("/sign-in")
-    @ResponseBody
-    public String setSignInSession(HttpServletRequest request, @RequestParam String name, String email, String password){
-        HttpSession session = request.getSession();
-        User currUser = us.createUser(name, email, password);
-        session.setAttribute("currUser", currUser);
-
-        return "sign_in";
-    }
-
-    @GetMapping("/sign-up")
-    @ResponseBody
-    public String setSignUpSession(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        User currUser = us.createUser("John", "generic@dog.com", "123");
-        session.setAttribute("currUser", currUser);
-
-        return "sign_in";
-    }
-
-
-
-    @GetMapping("/get-session")
-    @ResponseBody
-    public String getSession(HttpServletRequest request){
-        HttpSession session = request.getSession();
-        User user = (User) session.getAttribute("currUser");
-
-        return user.toString();
-    }
-     */
-
-
 
 
 }

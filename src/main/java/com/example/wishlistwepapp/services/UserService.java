@@ -41,6 +41,15 @@ public class UserService {
             return false;
     }
 
+    public boolean isEmailInDatabase(String email){
+        User user;
+        DataBase.connectToDB();
+
+        user = DataBase.getUserByEmail(email);
+        DataBase.closeConnection();
+        return user != null;
+    }
+
     public User getUser(String email, String password){
         DataBase.connectToDB();
         User user = DataBase.getUserByEmail(email);

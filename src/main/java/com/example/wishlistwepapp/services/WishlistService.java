@@ -28,9 +28,11 @@ public class WishlistService {
         DataBase.connectToDB();
         WishList wl = DataBase.getWishListByTitle(user, title);
         DataBase.closeConnection();
+        //System.out.println("?????????" + title + "=======" + wl + "------" + wl.getWishes());
 
         return wl;
     }
+
 
     public void deleteWishlist(WishList wishlist){
         //placeholder
