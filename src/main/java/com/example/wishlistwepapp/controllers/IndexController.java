@@ -29,8 +29,7 @@ public class IndexController {
 
     @GetMapping("/")
     public String index(HttpSession session, Model model){
-        if((boolean)session.getAttribute("isUserLoggedIn"))
-            model.addAttribute("user",(User) session.getAttribute("loggedInUser"));
+
 
         return "index";
     }
