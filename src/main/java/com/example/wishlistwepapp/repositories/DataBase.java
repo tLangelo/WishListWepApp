@@ -14,24 +14,6 @@ public class DataBase {
     private static ResultSet resultSet;
 
 
-    public static void main(String[] args) {
-        connectToDB();
-
-        //addUser(new User("Paul Bundgaard", "PB@mail.dk", "Password1234"));
-
-        //User paul = getUserByEmail("PB@mail.dk");
-        //removeUser(paul);
-
-        User peter = getUserByEmail("colombo@mail.com");
-        System.out.println(peter);
-
-        viewUsers();
-        viewWishLists();
-        viewWishes();
-
-        closeConnection();
-    }
-
     // DATABASE CONNECTION============================================================================================
 
     public static void connectToDB(){
