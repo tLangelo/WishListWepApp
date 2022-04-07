@@ -36,7 +36,6 @@ public class IndexController {
         }
         count++;
 
-
         return "index";
     }
 
